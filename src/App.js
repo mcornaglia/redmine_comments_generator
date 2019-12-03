@@ -13,7 +13,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      counterValue: 1,
+      counterValue: 0,
       severity: "Critical",
       outcome: "Passed",
       description: "",
@@ -39,18 +39,49 @@ class App extends React.Component {
   }
 
   handleRowSubmit = () => {
-    var redmineCode = "Test " + this.state.counterValue +  " - ";
+    var counter = this.state.counterValue + 1
+    var redmineCode = "*Test " + counter +  "* - ";
     // Checking Severity
-    if (this.state.severity === "Critical")
-      redmineCode += "%{color: red}Critical%*" + " - "
-    redmineCode += this.state.description;
-    if (this.state.outcome === "Passed")
-      redmineCode += "%{color: green}Passed%*" + " - "
+    switch (this.state.severity) {
+      case "Critical":
+        redmineCode += "*%{color: red}" + this.state.severity + "%*"
+        break;
+      case "High":
+        redmineCode += "*%{color: orange}" + this.state.severity + "%*"
+        break;
+      case "Medium":
+        redmineCode += "*%{color: blue}" + this.state.severity + "%*"
+        break;
+      case "Low":
+        redmineCode += "*%{color: green}" + this.state.severity + "%*"
+        break;
+      default:
+        break;
+    }
+    redmineCode += " - " + this.state.description + " - ";
+    // Checking Outcome
+    switch (this.state.outcome) {
+      case "Passed":
+        redmineCode += "*%{color: green}" + this.state.outcome + "%*"
+        break;
+      case "Failed":
+        redmineCode += "*%{color: red}" + this.state.outcome + "%*"
+        break;
+      case "Untestable":
+        redmineCode += "*%{color: orange}" + this.state.outcome + "%*"
+        break;
+      case "To be Reviewed":
+        redmineCode += "*%{color: purple}" + this.state.outcome + "%*"
+        break;
+      default:
+        break;
+    }
     
-
     this.setState({
-      redmineCode: redmineCode
+      counterValue: counter,
+      redmineCode: this.state.redmineCode + "\n" + redmineCode
     })
+
   }
 
   render() {
@@ -59,7 +90,7 @@ class App extends React.Component {
         <div className="app">
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
-              <Counter value={this.state.counterValue} />
+              <Counter value={this.state.counterValue + 1} />
             </Grid>
             <Grid container item xs={2} spacing={1} justify="center" alignItems="baseline">
               <Severity 
@@ -86,14 +117,14 @@ class App extends React.Component {
             </Grid>
             <Grid container item xs={12} spacing={4} justify="center">
               <TextField 
-                id="outlined-multiline-static"
                 label="Redmine Code" 
                 id="redmineBox" 
                 variant="outlined" 
                 multiline 
-                rows="15" 
+                rows={(this.state.counterValue+1)} 
+                wrap="hard"
                 value={this.state.redmineCode}
-              />
+              ></TextField>
             </Grid>
           </Grid>
 

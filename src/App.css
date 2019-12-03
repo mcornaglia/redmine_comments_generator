@@ -24,6 +24,16 @@
 
 #rowSubmit {
   font-size: 10px;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+#rowAdd {
+  font-size: 10px;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+}
+
+.newLine {
+  margin-top: 10%;
 }
