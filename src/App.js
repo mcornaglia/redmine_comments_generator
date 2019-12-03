@@ -76,10 +76,11 @@ class App extends React.Component {
       default:
         break;
     }
-    
+
     this.setState({
       counterValue: counter,
-      redmineCode: this.state.redmineCode + "\n" + redmineCode
+      redmineCode: this.state.redmineCode + "\n" + redmineCode,
+      description: ""
     })
 
   }
