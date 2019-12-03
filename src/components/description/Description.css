@@ -1,0 +1,7 @@
+.description {
+    width: inherit;
+}
+
+.MuiFormControl-root {
+    width: 90%;
+}
