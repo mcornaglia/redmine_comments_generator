@@ -11,8 +11,10 @@ class Description extends React.Component {
                     label="Insert your description . . ." 
                     variant="outlined" 
                     type="text" 
+                    autoFocus
                     value={this.props.value} 
                     onChange={this.props.handleDescriptionChange}
+                    onKeyPress={this.props.handleRowSubmit}
                 />
             </div>
         );

@@ -5,7 +5,6 @@ import Description from './components/description/Description';
 import Severity from './components/severity/Severity';
 import Outcome from './components/outcome/Outcome';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 class App extends React.Component {
@@ -22,7 +21,7 @@ class App extends React.Component {
     this.handleSeverityChange = this.handleSeverityChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleOutcomeChange = this.handleOutcomeChange.bind(this);
-    this.handleRowSubmit = this.handleRowSubmit.bind(this);
+    this.handleRowSubmitOnEnterPress = this.handleRowSubmitOnEnterPress.bind(this);
   }
 
   handleSeverityChange = event => {
@@ -38,57 +37,59 @@ class App extends React.Component {
     this.setState({outcome: event.target.value})
   }
 
-  handleRowSubmit = () => {
-    var counter = this.state.counterValue + 1
-    var redmineCode = "*Test " + counter +  "* - ";
-    // Checking Severity
-    switch (this.state.severity) {
-      case "Critical":
-        redmineCode += "*%{color: red}" + this.state.severity + "%*"
-        break;
-      case "High":
-        redmineCode += "*%{color: orange}" + this.state.severity + "%*"
-        break;
-      case "Medium":
-        redmineCode += "*%{color: blue}" + this.state.severity + "%*"
-        break;
-      case "Low":
-        redmineCode += "*%{color: green}" + this.state.severity + "%*"
-        break;
-      default:
-        break;
-    }
-    redmineCode += " - " + this.state.description + " - ";
-    // Checking Outcome
-    switch (this.state.outcome) {
-      case "Passed":
-        redmineCode += "*%{color: green}" + this.state.outcome + "%*"
-        break;
-      case "Failed":
-        redmineCode += "*%{color: red}" + this.state.outcome + "%*"
-        break;
-      case "Untestable":
-        redmineCode += "*%{color: orange}" + this.state.outcome + "%*"
-        break;
-      case "To be Reviewed":
-        redmineCode += "*%{color: purple}" + this.state.outcome + "%*"
-        break;
-      default:
-        break;
-    }
+  handleRowSubmitOnEnterPress = (e) => {
+    if (e.key === 'Enter') {
+      var counter = this.state.counterValue + 1
+      var redmineCode = "*Test " + counter +  "* - ";
+      // Checking Severity
+      switch (this.state.severity) {
+        case "Critical":
+          redmineCode += "*%{color: red}" + this.state.severity + "%*"
+          break;
+        case "High":
+          redmineCode += "*%{color: orange}" + this.state.severity + "%*"
+          break;
+        case "Medium":
+          redmineCode += "*%{color: blue}" + this.state.severity + "%*"
+          break;
+        case "Low":
+          redmineCode += "*%{color: green}" + this.state.severity + "%*"
+          break;
+        default:
+          break;
+      }
+      redmineCode += " - " + this.state.description + " - ";
+      // Checking Outcome
+      switch (this.state.outcome) {
+        case "Passed":
+          redmineCode += "*%{color: green}" + this.state.outcome + "%*"
+          break;
+        case "Failed":
+          redmineCode += "*%{color: red}" + this.state.outcome + "%*"
+          break;
+        case "Untestable":
+          redmineCode += "*%{color: orange}" + this.state.outcome + "%*"
+          break;
+        case "To be Reviewed":
+          redmineCode += "*%{color: purple}" + this.state.outcome + "%*"
+          break;
+        default:
+          break;
+      }
 
-    this.setState({
-      counterValue: counter,
-      redmineCode: this.state.redmineCode + "\n" + redmineCode,
-      description: ""
-    })
-
+      this.setState({
+        counterValue: counter,
+        redmineCode: this.state.redmineCode + redmineCode + "\n" ,
+        description: ""
+      })
+    }
   }
 
   render() {
     return (
       <React.Fragment>
         <div className="app">
+          <img class="logo" src="/components/redmine.png" alt="My_Logo"></img>
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
               <Counter value={this.state.counterValue + 1} />
@@ -103,7 +104,8 @@ class App extends React.Component {
             <Grid container item xs={7} spacing={1} justify="center" alignItems="baseline">
               <Description 
                 value={this.state.description}
-                handleDescriptionChange={this.handleDescriptionChange} 
+                handleDescriptionChange={this.handleDescriptionChange}
+                handleRowSubmit={this.handleRowSubmitOnEnterPress}
               />
             </Grid>
             <Grid container item xs={2} spacing={1} justify="center" alignItems="baseline">
@@ -113,17 +115,14 @@ class App extends React.Component {
                 outcomeTypes={["Passed", "Failed", "Untestable", "To be reviewed"]}
               />
             </Grid>
-            <Grid container item xs={12} spacing={4} justify="center">
-              <Button variant="contained" id="rowSubmit" onClick={this.handleRowSubmit}>Submit Row</Button>
-            </Grid>
-            <Grid container item xs={12} spacing={4} justify="center">
+
+            <Grid container item xs={12} spacing={4} justify="center" id="redmineCodeMultiline">
               <TextField 
                 label="Redmine Code" 
                 id="redmineBox" 
                 variant="outlined" 
                 multiline 
                 rows={(this.state.counterValue+1)} 
-                wrap="hard"
                 value={this.state.redmineCode}
               ></TextField>
             </Grid>
