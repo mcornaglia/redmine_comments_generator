@@ -89,7 +89,7 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <div className="app">
-          <img class="logo" src="/components/redmine.png" alt="My_Logo"></img>
+          <img class="logo" src="\redmine.png" alt="My_Logo"></img>
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
               <Counter value={this.state.counterValue + 1} />
