@@ -16,7 +16,10 @@ class App extends React.Component {
       severity: "Critical",
       outcome: "Passed",
       description: "",
-      redmineCode: ""
+      redmineCode: "",
+      redmineCodePreview: "",
+      redmineCodeTabular: "",
+      redmineCodeTabularPreview: ""
     }
     this.handleSeverityChange = this.handleSeverityChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -41,45 +44,90 @@ class App extends React.Component {
     if (e.key === 'Enter') {
       var counter = this.state.counterValue + 1
       var redmineCode = "*Test " + counter +  "* - ";
+      var redmineCodePreview = "<b>Test " + counter + "</b> - ";
+      var redmineCodeTabular = "| *" + counter + "*";
+      var redmineCodeTabularPreview = `
+      <tr>
+        <td><b>` + counter + `</b></td>`;
       // Checking Severity
       switch (this.state.severity) {
         case "Critical":
-          redmineCode += "*%{color: red}" + this.state.severity + "%*"
+          redmineCode += "*%{color: red}" + this.state.severity + "%*";
+          redmineCodePreview += "<b><font color='red'>" + this.state.severity + "</font></b>";
+          redmineCodeTabular += " | *%{color: red}" + this.state.severity + "%*";
+          redmineCodeTabularPreview += "<td><b><font color='red'>" + this.state.severity + "</font></b></td>"
           break;
         case "High":
-          redmineCode += "*%{color: orange}" + this.state.severity + "%*"
+          redmineCode += "*%{color: orange}" + this.state.severity + "%*";
+          redmineCodePreview += "<b><font color='orange'>" + this.state.severity + "</font></b>";
+          redmineCodeTabular += " | *%{color: orange}" + this.state.severity + "%*";
+          redmineCodeTabularPreview += "<td><b><font color='orange'>" + this.state.severity + "</font></b></td>"
           break;
         case "Medium":
           redmineCode += "*%{color: blue}" + this.state.severity + "%*"
+          redmineCodePreview += "<b><font color='blue'>" + this.state.severity + "</font></b>";
+          redmineCodeTabular += " | *%{color: blue}" + this.state.severity + "%*";
+          redmineCodeTabularPreview += "<td><b><font color='blue'>" + this.state.severity + "</font></b></td>"
           break;
         case "Low":
           redmineCode += "*%{color: green}" + this.state.severity + "%*"
+          redmineCodePreview += "<b><font color='green'>" + this.state.severity + "</font></b>";
+          redmineCodeTabular += " | *%{color: green}" + this.state.severity + "%*";
+          redmineCodeTabularPreview += "<td><b><font color='green'>" + this.state.severity + "</font></b></td>"
           break;
         default:
           break;
       }
       redmineCode += " - " + this.state.description + " - ";
+      redmineCodePreview += " - " + this.state.description + " - ";
+      redmineCodeTabular += " | " + this.state.description;
+      redmineCodeTabularPreview += "<td>" + this.state.description + "</td>"
       // Checking Outcome
       switch (this.state.outcome) {
         case "Passed":
-          redmineCode += "*%{color: green}" + this.state.outcome + "%*"
+          redmineCode += "*%{color: green}" + this.state.outcome + "%*";
+          redmineCodePreview += "<b><font color='green'>" + this.state.outcome + "</font></b>";
+          redmineCodeTabular += " | *%{color: green}" + this.state.outcome + "%* |";
+          redmineCodeTabularPreview += "<td><b><font color='green'>" + this.state.outcome + "</font></b></td></tr>"
           break;
         case "Failed":
           redmineCode += "*%{color: red}" + this.state.outcome + "%*"
+          redmineCodePreview += "<b><font color='red'>" + this.state.outcome + "</font></b>";
+          redmineCodeTabular += " | *%{color: red}" + this.state.outcome + "%* |";
+          redmineCodeTabularPreview += "<td><b><font color='red'>" + this.state.outcome + "</font></b></td></tr>"
           break;
         case "Untestable":
           redmineCode += "*%{color: orange}" + this.state.outcome + "%*"
+          redmineCodePreview += "<b><font color='orange'>" + this.state.outcome + "</font></b>";
+          redmineCodeTabular += " | *%{color: orange}" + this.state.outcome + "%* |";
+          redmineCodeTabularPreview += "<td><b><font color='orange'>" + this.state.outcome + "</font></b></td></tr>"
           break;
         case "To be Reviewed":
           redmineCode += "*%{color: purple}" + this.state.outcome + "%*"
+          redmineCodePreview += "<b><font color='purple'>" + this.state.outcome + "</font></b>";
+          redmineCodeTabular += " | *%{color: purple}" + this.state.outcome + "%* |";
+          redmineCodeTabularPreview += "<td><b><font color='purple'>" + this.state.outcome + "</font></b></td></tr>"
           break;
         default:
           break;
       }
 
+      console.log(redmineCodePreview);
+      console.log(redmineCodeTabularPreview);
+      
       this.setState({
         counterValue: counter,
         redmineCode: this.state.redmineCode + redmineCode + "\n" ,
+        redmineCodePreview: this.state.redmineCodePreview + redmineCodePreview + "</br>",
+        redmineCodeTabular: this.state.redmineCodeTabular === "" ? "|_. Test ID |_. Severity |_. Description |_. Outcome | \n" + redmineCodeTabular : this.state.redmineCodeTabular + "\n" + redmineCodeTabular,
+        redmineCodeTabularPreview: (this.state.redmineCodeTabularPreview === "") ? 
+        (`<table class="tabularPreviewTable">
+          <tr>
+            <th>Test ID</th>
+            <th>Severity</th>
+            <th>Description</th>
+            <th>Outcome</th>
+          </tr>` + redmineCodeTabularPreview) : (this.state.redmineCodeTabularPreview + redmineCodeTabularPreview),
         description: ""
       })
     }
@@ -89,7 +137,9 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <div className="app">
+        <Grid container item xs={12} spacing={2} justify="center" alignItems="center">
           <img class="logo" src="\redmine.png" alt="My_Logo"></img>
+        </Grid>
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
               <Counter value={this.state.counterValue + 1} />
@@ -112,7 +162,7 @@ class App extends React.Component {
               <Outcome 
                 value={this.state.outcome}
                 handleOutcomeChange={this.handleOutcomeChange}
-                outcomeTypes={["Passed", "Failed", "Untestable", "To be reviewed"]}
+                outcomeTypes={["Passed", "Failed", "Untestable", "To be Reviewed"]}
               />
             </Grid>
 
@@ -122,10 +172,30 @@ class App extends React.Component {
                 id="redmineBox" 
                 variant="outlined" 
                 multiline 
-                rows={(this.state.counterValue+1)} 
+                rows={(this.state.counterValue)} 
                 value={this.state.redmineCode}
               ></TextField>
             </Grid>
+
+            <Grid container item xs={12} id="redmineCodePreview">
+              <div dangerouslySetInnerHTML={{__html: this.state.redmineCodePreview}} />
+            </Grid>
+
+            <Grid container item xs={12} spacing={4} justify="center" id="redmineCodeMultiline">
+              <TextField 
+                label="Redmine Code Tabular" 
+                id="redmineBox" 
+                variant="outlined" 
+                multiline 
+                rows={(this.state.counterValue+1)} 
+                value={this.state.redmineCodeTabular}
+              ></TextField>
+            </Grid>
+
+            <Grid container item xs={12} id="redmineCodeTabularPreview">
+              <div dangerouslySetInnerHTML={{__html: this.state.redmineCodeTabularPreview}} />
+            </Grid>
+
           </Grid>
 
         </div>

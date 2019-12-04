@@ -3,7 +3,6 @@ import Select from '@material-ui/core/Select';
 import './Severity.css';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from '@material-ui/core/MenuItem';
 
 class Severity extends React.Component {
@@ -21,12 +20,7 @@ class Severity extends React.Component {
                         {this.props.severityTypes.map(sev => {
                             return (<MenuItem key={sev} value={sev}>{sev}</MenuItem>)
                         })}
-
-                        {/* {this.props.severityTypes.map(sev =>
-                            <SevOption key={sev} sevValue={sev}>{sev}</SevOption>                        
-                        )} */}
                     </Select>
-                    <FormHelperText>Select your Severity . . .</FormHelperText>
                 </FormControl>
             </div>
         );

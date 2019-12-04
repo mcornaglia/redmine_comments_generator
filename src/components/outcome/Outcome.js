@@ -3,7 +3,6 @@ import Select from '@material-ui/core/Select';
 import './Outcome.css';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from '@material-ui/core/MenuItem';
 
 class Outcome extends React.Component {
@@ -21,7 +20,7 @@ class Outcome extends React.Component {
                             return (<MenuItem key={otc} value={otc}>{otc}</MenuItem>)
                         })}
                     </Select>
-                    <FormHelperText>Select your Outcome . . .</FormHelperText>
+                    
                 </FormControl>
             </div>
         );

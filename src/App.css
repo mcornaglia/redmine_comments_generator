@@ -41,3 +41,29 @@
 #redmineCodeMultiline {
   margin-top: 5%;
 }
+
+#redmineCodePreview {
+  margin: 1% 0 0 5%;
+  font-size: 12px;
+}
+
+#redmineCodeTabularPreview {
+  margin: 1% 0 0 5%;
+  font-size: 12px;
+}
+
+.logo {
+  margin: -1% 0 4% 0;
+  width: 50%;
+  height: 50%;
+}
+
+#redmineBox {
+  overflow: hidden;
+}
+
+.tabularPreviewTable, th, td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 4px;
+}
