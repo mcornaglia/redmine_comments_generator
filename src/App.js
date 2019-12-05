@@ -111,9 +111,6 @@ class App extends React.Component {
         default:
           break;
       }
-
-      console.log(redmineCodePreview);
-      console.log(redmineCodeTabularPreview);
       
       this.setState({
         counterValue: counter,
@@ -138,7 +135,8 @@ class App extends React.Component {
       <React.Fragment>
         <div className="app">
         <Grid container item xs={12} spacing={2} justify="center" alignItems="center">
-          <img class="logo" src="\redmine.png" alt="My_Logo"></img>
+          <h1 class="logoText">Redmine Code Generator</h1>
+          {/* <img class="logo" src="\redmine.png" alt="My_Logo"></img> */}
         </Grid>
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
@@ -168,7 +166,8 @@ class App extends React.Component {
 
             <Grid container item xs={12} spacing={4} justify="center" id="redmineCodeMultiline">
               <TextField 
-                label="Redmine Code" 
+                label={this.state.counterValue >= 1 ? "Redmine Code" : ""}
+                placeholder={this.state.counterValue < 1 ? "Redmine's Standard Code will appear here . . ." : ""}
                 id="redmineBox" 
                 variant="outlined" 
                 multiline 
@@ -183,7 +182,8 @@ class App extends React.Component {
 
             <Grid container item xs={12} spacing={4} justify="center" id="redmineCodeMultiline">
               <TextField 
-                label="Redmine Code Tabular" 
+                label={this.state.counterValue >= 1 ? "Redmine Code Tabular" : ""}
+                placeholder={this.state.counterValue < 1 ? "Redmine's Tabular Code will appear here . . ." : ""}
                 id="redmineBox" 
                 variant="outlined" 
                 multiline 

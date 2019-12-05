@@ -2,20 +2,12 @@
   width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
 .App-header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #09d3ac;
 }
 
 .newLine {
@@ -39,7 +31,7 @@
 }
 
 #redmineCodeMultiline {
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 #redmineCodePreview {
@@ -66,4 +58,10 @@
   border: 1px solid grey;
   border-collapse: collapse;
   padding: 4px;
+}
+
+.logoText {
+  margin: -1% 0 4% 0;
+  font-family: 'Major Mono Display', monospace;
+  font-size: 40px;
 }
