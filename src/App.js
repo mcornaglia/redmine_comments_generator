@@ -6,6 +6,8 @@ import Severity from './components/severity/Severity';
 import Outcome from './components/outcome/Outcome';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
+
 
 class App extends React.Component {
   
@@ -25,6 +27,15 @@ class App extends React.Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleOutcomeChange = this.handleOutcomeChange.bind(this);
     this.handleRowSubmitOnEnterPress = this.handleRowSubmitOnEnterPress.bind(this);
+    this.fetchRedmine = this.fetchRedmine.bind(this);
+  }
+
+  fetchRedmine(){
+    fetch('http://localhost:5000/latest_issues')
+      .then(res => res.json())      
+      .then((json) => {
+        console.log(json);
+      })
   }
 
   handleSeverityChange = event => {
@@ -46,9 +57,7 @@ class App extends React.Component {
       var redmineCode = "*Test " + counter +  "* - ";
       var redmineCodePreview = "<b>Test " + counter + "</b> - ";
       var redmineCodeTabular = "| *" + counter + "*";
-      var redmineCodeTabularPreview = `
-      <tr>
-        <td><b>` + counter + `</b></td>`;
+      var redmineCodeTabularPreview = `<tr><td><b>` + counter + `</b></td>`;
       // Checking Severity
       switch (this.state.severity) {
         case "Critical":
@@ -135,8 +144,7 @@ class App extends React.Component {
       <React.Fragment>
         <div className="app">
         <Grid container item xs={12} spacing={2} justify="center" alignItems="center">
-          <h1 class="logoText">Redmine Code Generator</h1>
-          {/* <img class="logo" src="\redmine.png" alt="My_Logo"></img> */}
+          <h1 className="logoText">Redmine Code Generator</h1>
         </Grid>
           <Grid container spacing={1}>
             <Grid container item xs={1} spacing={1} justify="center" alignItems="center">
@@ -194,6 +202,10 @@ class App extends React.Component {
 
             <Grid container item xs={12} id="redmineCodeTabularPreview">
               <div dangerouslySetInnerHTML={{__html: this.state.redmineCodeTabularPreview}} />
+            </Grid>
+
+            <Grid container item xs={12} id="redmineCodeTabularPreview">
+              <Button onClick={this.fetchRedmine}>Click meh</Button>
             </Grid>
 
           </Grid>
